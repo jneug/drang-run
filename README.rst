@@ -20,3 +20,33 @@ This will install the ``run`` command.
 .. code-block:: fish
 
    run --version
+
+Usage
+=====
+
+Basic usage includes up to three arguments:
+
+.. code-block:: fish
+
+   run [START] STOP [STEP]
+
+``START`` and ``STEP`` are optional and have 1 as default.
+
+.. code-block:: fish
+
+   $>run 4
+   1
+   2
+   3
+   4
+   $>run 5 8
+   5
+   6
+   7
+   8
+   $>run 0 10 3
+   0
+   3
+   6
+   9
+
