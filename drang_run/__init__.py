@@ -3,13 +3,12 @@
 __version__ = "0.3.2"
 
 
-import click
 import codecs
 import decimal
-
+from itertools import product
 from string import ascii_letters
 
-from itertools import product
+import click
 
 
 # The arguments for -f and -s come in as raw strings, but we
