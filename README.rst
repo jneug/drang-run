@@ -138,7 +138,7 @@ Run additional sequences with ``--also START STOP STEP``:
 
 .. code-block:: fish
 
-   $>run 1 2 -- also 3 4
+   $>run 1 2 -- also 3 4 1
    1-3
    1-4
    2-3
@@ -148,7 +148,7 @@ Of course, this can be used with characters and be formatted:
 
 .. code-block:: fish
 
-   $>run 1 2 -- also b c --format "{0:02}. {1}_{1}"
+   $>run 1 2 -- also b c 1 --format "{0:02}. {1}_{1}"
    01. a_a
    01. b_b
    02. a_a
@@ -157,4 +157,4 @@ Of course, this can be used with characters and be formatted:
 .. Note::
 
    The sequences can be referenced by order of appearance in the format string. ``-r``
-	will reverse *all* sequences.
+	 will reverse *all* sequences.
