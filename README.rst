@@ -11,6 +11,12 @@ Installation
 
 Just install like any other package:
 
-.. code-block:: bash
+.. code-block:: fish
 
    pip3 install drang-run
+
+This will install the ``run`` command.
+
+.. code-block:: fish
+
+   run --version
