@@ -80,7 +80,7 @@ You can use decimals for START, STOP and STEP:
    1.25
    1.4
 
-Note that if at least obe argument is a decimal, the outpuz will be formatted as decimals as well.
+.. Note:: If at least one argument is a decimal, the output will be formatted as decimals as well.
 
 Using letters will generate character sequences:
 
@@ -113,4 +113,4 @@ Of course, this can be used with characters and be formatted:
    02. a_a
    02. b_b
 
-Note that the sequences can be referenced by order of appearance in the format string. ``-r`` will reverse *all* sequences.
+.. Note:: The sequences can be referenced by order of appearance in the format string. ``-r`` will reverse *all* sequences.
