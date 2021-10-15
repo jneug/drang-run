@@ -67,7 +67,7 @@ string.
 
 .. code-block:: fish
 
-   $>run 998 1002 --format "{: 4}."
+   $>run 998 1002 --format "{: >4}."
     998.
     999.
    1000.
@@ -83,10 +83,10 @@ You can use decimals for ``START``, ``STOP`` and ``STEP``:
    1.25
    1.4
 
-.. Note::
+.. note::
 
    If at least one argument is a decimal, the output will be formatted as
-decimals as well.
+	 decimals as well.
 
    .. code-block:: fish
 
