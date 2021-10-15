@@ -50,3 +50,14 @@ Basic usage includes up to three arguments:
    6
    9
 
+Format the output with ``--format``. The option accepts any kond of Python format string. 
+
+.. code-block:: fish
+
+   $>run 998 1002 --format "{: 4}."
+    998.
+    999.
+   1000.
+   1001.
+   1002.
+   
