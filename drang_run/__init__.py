@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "0.3.5"
+__version__ = "0.3.6"
 
 
 import codecs
@@ -65,6 +65,11 @@ class Counter(object):
         except decimal.InvalidOperation:
             raise ValueError(
                 f"Invalid value for '[STEP]': '{step}' is not a valid number."
+            )
+
+        if self.step == 0.0:
+            raise ValueError(
+                "Invalid value for '[STEP]': Step size may not be zero."
             )
 
         self.reversed = False  # reverse

@@ -1,11 +1,12 @@
 import pytest
+from click import UsageError
 from click.testing import CliRunner
 
 from drang_run import __version__, run
 
 
 def test_version():
-    assert __version__ == "0.3.5"
+    assert __version__ == "0.3.6"
 
 
 def test_normal_use():
@@ -65,3 +66,32 @@ def test_two_arg_mixed_int(start, stop):
     else:
         gen = range(start, stop + 1)
     assert "\n".join(str(x) for x in gen) + "\n" == result.output
+
+
+@pytest.mark.parametrize("start,stop,step", [(1, 10, 1), (1, 20, 2), (100, 40, -1), (99, 100, 2), (99, 100, -2)])
+def test_three_arg_mixed_int(start, stop, step):
+    runner = CliRunner()
+
+    # One argument
+    result = runner.invoke(run, args=[str(start), str(stop), str(step)])
+    if start > stop:
+        if step < 0:
+            gen = range(start, stop - 1, step)
+        else:
+            gen = range(start, stop - 1, -1*step)
+    else:
+        if step < 0:
+            gen = range(start, stop + 1, -1*step)
+        else:
+            gen = range(start, stop + 1, step)
+
+    assert "\n".join(str(x) for x in gen) + "\n" == result.output
+
+
+@pytest.mark.parametrize("start,stop", [(-5, 10), (10, -20), (-1, 40), (-99, 100)])
+def test_step_zero(start, stop):
+    runner = CliRunner()
+
+    result = runner.invoke(run, args=[str(start), str(stop), "0"])
+    assert result != 0
+    assert "Error: Invalid value for '[STEP]'" in result.output

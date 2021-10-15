@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "drang-run"
-version = "0.3.5"
+version = "0.3.6"
 description = "Generate a run of integers or characters. Similar to jot and seq."
 authors = ["J. Neugebauer <github@neugebauer.cc>"]
 license = "MIT"
