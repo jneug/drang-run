@@ -71,6 +71,17 @@ Format the output with ``--format``. The option accepts any kond of Python forma
    1001.
    1002.
 
+You can use decimals for START, STOP and STEP:
+
+.. code-block:: fish
+
+   $>run 1.1 1.5 .15
+   1.1
+   1.25
+   1.4
+
+Note that if at least obe argument is a decimal, the outpuz will be formatted as decimals as well.
+
 Using letters will generate character sequences:
 
 .. code-block:: fish
@@ -103,12 +114,3 @@ Of course, this can be used with characters and be formatted:
    02. b_b
 
 Note that the sequences can be referenced by order of appearance in the format string. ``-r`` will reverse *all* sequences.
-
-You can use decimals for START, STOP and STEP:
-
-.. code-block:: fish
-
-   $>run 1.1 1.5 .15
-   1.1
-   1.25
-   1.4
