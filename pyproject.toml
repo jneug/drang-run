@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "drang-run"
+version = "0.3.2"
+description = "Generate a run of integers or characters. Similar to jot and seq."
+authors = ["J. Neugebauer <github@neugebauer.cc>"]
+license = "MIT"
+readme = "README.md"
+homepage = "http://github.com/jneug/drang-run"
+repository = "http://github.com/jneug/drang-run"
+classifiers = [
+		"Programming Language :: Python :: 3"
+	]
+
+[tool.poetry.dependencies]
+python = "^3.6.2"
+click = "^8.0.3"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.5"
+isort = "^5.9.3"
+black = "^21.9b0"
+flake8 = "^4.0.1"
+
+[tool.poetry.scripts]
+run = "drang_run:run"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
