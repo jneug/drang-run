@@ -92,7 +92,7 @@ Run additional sequences with ``--also START STOP STEP``:
    2-3
    2-4
 
-Of course, this can be used with characters and formatted:
+Of course, this can be used with characters and be formatted:
 
 .. code-block:: fish
 
@@ -101,3 +101,14 @@ Of course, this can be used with characters and formatted:
    01. b_b
    02. a_a
    02. b_b
+
+Note that the sequences can be referenced by order of appearance in the format string. ``-r`` will reverse *all* sequences.
+
+You can use decimals for START, STOP and STEP:
+
+.. code-block:: fish
+
+   $>run 1.1 1.5 .15
+   1.1
+   1.25
+   1.4
