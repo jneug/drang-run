@@ -111,6 +111,7 @@ class OptargCommand(click.Command):
 
 
 @click.command(cls=OptargCommand, context_settings={"ignore_unknown_options": True})
+@click.version_option(version=__version__, prog_name="run")
 @click.option("-f", "--format", "fstring", help="formatting string for number")
 @click.option("-s", "--sep", help="separator string", default="\n")
 @click.option("-r", "--reverse", is_flag=True)
