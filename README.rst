@@ -11,13 +11,13 @@ Installation
 
 Just install like any other package:
 
-::
+.. code-block:: console
 
    $ pip3 install drang-run
 
 This will install the ``run`` command.
 
-::
+.. code-block:: console
 
    $ run --version
    run, version 0.3.6
@@ -53,7 +53,7 @@ Basic usage includes up to three arguments:
 
 Reverse the sequence with ``-r``:
 
-.. code-block:: bash
+.. code-block:: console
 
     $ run 4 -r
     4
@@ -61,7 +61,9 @@ Reverse the sequence with ``-r``:
     2
     1
 
-Or switch the arguments::
+Or switch the arguments:
+
+.. code-block:: console
 
    $ run 4 1 -1
    4
