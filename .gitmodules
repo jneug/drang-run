@@ -1,0 +1,3 @@
+[submodule "simpleeval"]
+	path = simpleeval
+	url = https://github.com/danthedeckie/simpleeval
