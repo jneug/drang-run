@@ -85,8 +85,8 @@ Format the output with ``--format``. The option accepts any kind of `Python form
 .. code-block:: console
 
     $ run 998 1002 --format "{: >4}."
-    998.
-    999.
+     998.
+     999.
     1000.
     1001.
     1002.
@@ -164,7 +164,7 @@ Of course, this can be used with characters and be formatted:
 .. note::
     The sequences can be referenced in the format string by order of appearance. ``-r`` will reverse *all* sequences.
 
-Since version 0.4.0 you can define variables with the ``--def`` option. A variable can be set to a simple arithmetic expression that is evaluated with the current counter values.
+Since version 0.4.0 you can define variables with the ``--def`` option. A variable can be set to a simple arithmetic expression that is evaluated with the current counter values. Similar to the format string (``-f``) the counters can be referenced with ``{0}``, ``{1}`` and so on. All defined variables are initialized with ``0`` and can be used in other expressions, even in the definition of themselves.
 
 .. code-block:: console
 
@@ -181,6 +181,19 @@ Since version 0.4.0 you can define variables with the ``--def`` option. A variab
     4 + 1 = 5 (41)
     4 + 2 = 6 (47)
     4 + 3 = 7 (54)
+
+The expressions allow for some additional functions to be used. Notably the
+``randint(max)`` and ``rand()`` functions for genrating random numbers:
+
+.. code-block:: console
+
+    $ run 10 --def r "randint(100)" --format "{r}" -s ,
+    51,0,55,50,56,43,20,5,51,90
+
+.. note::
+    The expressions are evaluated using the [simpleeval](https://github.com/danthedeckie/simpleeval) module. Read the docs to see, what expressions are possible. In general, the basic arithmetic operators (``+``, ``-``, ``*``, ``/``, ``*``, ``//``) are supported.
+
+
 
 .. _jot: https://www.unix.com/man-page/osx/1/jot/
 .. _seq: https://www.unix.com/man-page/osx/1/seq/
