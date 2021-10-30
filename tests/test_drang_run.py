@@ -6,7 +6,7 @@ from drang_run import __version__, run
 
 
 def test_version():
-    assert __version__ == "0.4.0"
+    assert __version__ == "0.4.1"
 
 
 def test_normal_use():
