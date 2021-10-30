@@ -5,7 +5,7 @@ drang-run
   A simple command line tool to print sequences of numbers.
 
 ``drang-run`` is comparable to  `jot`_ or `seq`_, but with a more intuitive interface. It was inspired (and named after) `a post by Dr. Drang`_.
- 
+
 Installation
 ============
 
@@ -72,13 +72,13 @@ Or switch the arguments:
    1
 
 .. note::
-    ``run`` will try to guess the correct direction for the sequence based on the arguments. The example above could be simply written as ``run 4 1``. 
-    
-    For conflicting sets of arguments, the values for START and STOP will take precedence over STEP. So ``run 1 4 -1`` will be the same as ``run 1 4 1``. 
-    
-    The only exeption to this is ``STEP = 0`` which will cause an error. 
-    
-    This also means that ``run`` will almost never produce an empty output because at least ``START`` will be part of the sequence. 
+    ``run`` will try to guess the correct direction for the sequence based on the arguments. The example above could be simply written as ``run 4 1``.
+
+    For conflicting sets of arguments, the values for START and STOP will take precedence over STEP. So ``run 1 4 -1`` will be the same as ``run 1 4 1``.
+
+    The only exeption to this is ``STEP = 0`` which will cause an error.
+
+    This also means that ``run`` will almost never produce an empty output because at least ``START`` will be part of the sequence.
 
 Format the output with ``--format``. The option accepts any kind of `Python format string`_.
 
@@ -102,19 +102,19 @@ You can use decimals for ``[START]``, ``STOP`` and ``[STEP]``:
 
 .. note::
     If at least one argument is a decimal, the output will be formatted as decimals as well.
-    
+
     .. code-block:: console
-    
+
         $ run 1.0 4 1
         1.0
         2.0
         3.0
         4.0
-    
+
     You can always change this by using appropriate format strings.
-    
+
     .. code-block:: console
-    
+
         $ run 1.0 4 1 --format "{:g}"
         1
         2
@@ -142,12 +142,12 @@ Run additional sequences with ``--also START STOP STEP``:
 
 .. code-block:: console
 
-    $ run 1 2 -- also 3 4 1
+    $ run 1 2 --also 3 4 1
     1-3
     1-4
     2-3
     2-4
-   
+
 .. note::
     ``--also`` requires all three arguments to be present.
 
@@ -155,7 +155,7 @@ Of course, this can be used with characters and be formatted:
 
 .. code-block:: console
 
-    $ run 1 2 -- also b c 1 --format "{0:02}. {1}_{1}"
+    $ run 1 2 --also b c 1 --format "{0:02}. {1}_{1}"
     01. a_a
     01. b_b
     02. a_a
@@ -164,6 +164,23 @@ Of course, this can be used with characters and be formatted:
 .. note::
     The sequences can be referenced in the format string by order of appearance. ``-r`` will reverse *all* sequences.
 
+Since version 0.4.0 you can define variables with the ``--def`` option. A variable can be set to a simple arithmetic expression that is evaluated with the current counter values.
+
+.. code-block:: console
+
+    $ run 4 --also 1 3 1 --def sum "{0}+{1}" --def akk "{akk}+{sum}" --format "{0} + {1} = {sum} ({akk})"
+    1 + 1 = 2 (2)
+    1 + 2 = 3 (5)
+    1 + 3 = 4 (9)
+    2 + 1 = 3 (12)
+    2 + 2 = 4 (16)
+    2 + 3 = 5 (21)
+    3 + 1 = 4 (25)
+    3 + 2 = 5 (30)
+    3 + 3 = 6 (36)
+    4 + 1 = 5 (41)
+    4 + 2 = 6 (47)
+    4 + 3 = 7 (54)
 
 .. _jot: https://www.unix.com/man-page/osx/1/jot/
 .. _seq: https://www.unix.com/man-page/osx/1/seq/
