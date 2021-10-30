@@ -191,7 +191,7 @@ The expressions allow for some additional functions to be used. Notably the
     51,0,55,50,56,43,20,5,51,90
 
 .. note::
-    The expressions are evaluated using the [simpleeval](https://github.com/danthedeckie/simpleeval) module. Read the docs to see, what expressions are possible. In general, the basic arithmetic operators (``+``, ``-``, ``*``, ``/``, ``*``, ``//``) are supported.
+    The expressions are evaluated using the `simpleeval`_ module. Read the docs to see, what expressions are possible. In general, the basic arithmetic operators (``+``, ``-``, ``*``, ``/``, ``*``, ``//``) are supported.
 
 
 
@@ -200,3 +200,4 @@ The expressions allow for some additional functions to be used. Notably the
 .. _a post by Dr. Drang: https://leancrew.com/all-this/2020/09/running-numbers/
 .. _pip: http://www.pip-installer.org/
 .. _Python format string: https://docs.python.org/3.6/library/string.html#formatstrings
+.. _simpleeval: https://github.com/danthedeckie/simpleeval
