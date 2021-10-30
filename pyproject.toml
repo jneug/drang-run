@@ -56,3 +56,7 @@ search = '__version__ = "{current_version}"'
 [[tool.tbump.file]]
 src = "tests/test_drang_run.py"
 search = 'assert __version__ == "{current_version}"'
+
+[[tool.tbump.file]]
+src = "pyproject.toml"
+search = 'version = "{current_version}"'
