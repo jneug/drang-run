@@ -8,6 +8,8 @@ import decimal
 from itertools import product
 from string import ascii_letters
 
+from .simpleeval import SimpleEval
+
 import click
 
 
@@ -23,7 +25,7 @@ def interpret(s):
 
 class Counter(object):
     """
-    Counter class to creat the range for a given counter. Either the "main" counter
+    Counter class to create the range for a given counter. Either the "main" counter
     or an "--also" counter. The counter decides how to count (chars, ints or floats)
     based on the values of start, stop and step.
     """
@@ -68,9 +70,7 @@ class Counter(object):
             )
 
         if self.step == 0.0:
-            raise ValueError(
-                "Invalid value for '[STEP]': Step size may not be zero."
-            )
+            raise ValueError("Invalid value for '[STEP]': Step size may not be zero.")
 
         self.reversed = False  # reverse
         if self.start > self.stop:
@@ -123,11 +123,19 @@ class OptargCommand(click.Command):
     "All three need to be present.",
     metavar="START STOP STEP",
 )
+@click.option(
+    "--def",
+    "var_defs",
+    multiple=True,
+    nargs=2,
+    help="Define a variable to use in the format string. The Variable may contain simple arithmetic expressions.",
+    metavar="NAME EXPR",
+)
 @click.argument("start", required=False, default="1")
 @click.argument("stop")
 @click.argument("step", required=False, default="1")
 @click.pass_context
-def run(ctx, start, stop, step, fstring, sep, reverse, also):
+def run(ctx, start, stop, step, fstring, sep, reverse, also, var_defs):
     """Generate a run of integers or characters. Similar to jot and seq.
 
     The run of numbers can be integers or reals, depending on the values of START, STOP, and STEP.
@@ -148,11 +156,26 @@ def run(ctx, start, stop, step, fstring, sep, reverse, also):
             except ValueError as err:
                 ctx.fail(str(err))
 
+    variables = {name: 0 for name, ex in var_defs}
+
     run = list(product(*counters))
 
     # Convert to text
     try:
-        runText = [fstring.format(*n) for n in run]
+        # Create restricted evaluator for --def params
+        simple = SimpleEval()
+        # simple.functions = {}
+
+        runText = []
+        for numbers in run:
+            for name, ex in var_defs:
+                for i, v in enumerate(numbers):
+                    ex = ex.replace(f"{{{i}}}", str(v))
+                for n, v in variables.items():
+                    ex = ex.replace(f"{{{n}}}", str(v))
+                variables[name] = simple.eval(ex)
+            runText.append(fstring.format(*numbers, **variables))
+        # runText = [fstring.format(*n, **variables) for n in run]
     except Exception as err:
         format_opt = next(
             a for a in ctx.command.params if a.human_readable_name == "fstring"
