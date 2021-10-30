@@ -60,3 +60,7 @@ search = 'assert __version__ == "{current_version}"'
 [[tool.tbump.file]]
 src = "pyproject.toml"
 search = 'version = "{current_version}"'
+
+[[tool.tbump.file]]
+src = "README.rst"
+search = 'run, version {current_version}'
