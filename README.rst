@@ -194,6 +194,24 @@ The expressions allow for some additional functions to be used. Notably the
     The expressions are evaluated using the `simpleeval`_ module. Read the docs to see, what expressions are possible. In general, the basic arithmetic operators (``+``, ``-``, ``*``, ``/``, ``*``, ``//``) are supported.
 
 
+Examples
+========
+
+Generating a CSV file with a lists of decimal, binary and hexadecimal numbers:
+
+.. code-block:: console
+
+    $ echo "dec,bin,hex" > hostnames.csv
+    $ run 0 255 -f "{0:2},{0:08b},{0:02X}" >> numbers.csv
+
+
+Generating a list of computers in a network with hostnames and IP.
+
+.. code-block:: console
+
+    $ echo "room,hostname,ip" > hostnames.csv
+    $ run 4 --also 1 24 1 --also 1 16 1 -f "{0}{1:02},r{0}{1:02}-{2:02},18.45.{1}{0}.{2}" >> hostnames.csv
+
 
 .. _jot: https://www.unix.com/man-page/osx/1/jot/
 .. _seq: https://www.unix.com/man-page/osx/1/seq/
