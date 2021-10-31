@@ -5,6 +5,8 @@ __version__ = "0.4.1"
 
 import codecs
 import decimal
+import ast
+import operator
 from itertools import product
 from math import sqrt
 from string import ascii_letters
@@ -169,6 +171,9 @@ def run(ctx, start, stop, step, fstring, sep, reverse, also, var_defs):
     # Create restricted evaluator singleton
     simple = simpleeval.SimpleEval()
     simple.functions.update(sqrt=sqrt)
+    simple.operators[ast.BitOr] = operator.or_
+    simple.operators[ast.BitAnd] = operator.and_
+    simple.operators[ast.BitXor] = operator.xor
 
     is_first = True
     for numbers in product(*counters):
