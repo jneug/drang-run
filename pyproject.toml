@@ -20,6 +20,7 @@ pytest = "^6.2.5"
 isort = "^5.9.3"
 black = "^21.9b0"
 flake8 = "^4.0.1"
+tbump = "^6.5.0"
 
 [tool.poetry.scripts]
 run = "drang_run:run"
