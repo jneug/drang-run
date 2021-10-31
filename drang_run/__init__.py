@@ -3,7 +3,6 @@
 __version__ = "0.4.2"
 
 
-import codecs
 import decimal
 import ast
 import operator
@@ -16,12 +15,13 @@ import click
 import drang_run.simpleeval as simpleeval
 
 
-# The arguments for -f and -s come in as raw strings, but we
-# need to be able to interpret things like \t and \n as escape
-# sequences, not literals.
-def interpret(s):
-    if s:
-        return codecs.escape_decode(bytes(s, "utf8"))[0].decode("utf8")
+def interpret(text):
+    """
+    Decode text to allow escape sequences (e.g. \n or \t) input by the user
+    to be processed as expected. Important for the -f and -s options.
+    """
+    if text:
+        return bytes(text, "utf-8").decode("unicode_escape")
     else:
         return None
 
@@ -86,7 +86,7 @@ class Counter(object):
             # if the original stop is not in the run, the reversed
             # run should start at the last value of the not reversed run
             if ((self.start - self.stop) % self.step) != 0:
-                self.start -= ((self.start - self.stop) % self.step)
+                self.start -= (self.start - self.stop) % self.step
             self.step = -1 * self.step
             self.reversed = not self.reversed
 
