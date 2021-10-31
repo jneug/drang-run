@@ -83,6 +83,10 @@ class Counter(object):
 
         if reverse:
             self.start, self.stop = self.stop, self.start
+            # if the original stop is not in the run, the reversed
+            # run should start at the last value of the not reversed run
+            if ((self.start - self.stop) % self.step) != 0:
+                self.start -= ((self.start - self.stop) % self.step)
             self.step = -1 * self.step
             self.reversed = not self.reversed
 
