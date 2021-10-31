@@ -6,12 +6,12 @@ __version__ = "0.4.1"
 import codecs
 import decimal
 from itertools import product
-from string import ascii_letters
 from math import sqrt
-
-from .simpleeval import SimpleEval
+from string import ascii_letters
 
 import click
+
+import drang_run.simpleeval as simpleeval
 
 
 # The arguments for -f and -s come in as raw strings, but we
@@ -125,6 +125,7 @@ class OptargCommand(click.Command):
     metavar="START STOP STEP",
 )
 @click.option(
+    "-d",
     "--def",
     "var_defs",
     multiple=True,
@@ -160,35 +161,53 @@ def run(ctx, start, stop, step, fstring, sep, reverse, also, var_defs):
     # Initialize variable defintions
     variables = {name: 0 for name, ex in var_defs}
 
-    run = list(product(*counters))
+    # Lazy evaluation of counter product
+    # Each iteration is printed directly after evaluation.
+    # itertools.product still takes a moment to build the cartesian
+    # product of counter values for large inputs.
 
-    # Convert to text
-    try:
-        # Create restricted evaluator for --def params
-        simple = SimpleEval()
-        simple.functions.update(
-            sqrt=sqrt
-        )
+    # Create restricted evaluator singleton
+    simple = simpleeval.SimpleEval()
+    simple.functions.update(sqrt=sqrt)
 
-        runText = []
-        for numbers in run:
-            for name, ex in var_defs:
+    is_first = True
+    for numbers in product(*counters):
+        try:
+            # Evaluate expressions in variable definitions
+            # for this instance of the counters
+            for name, expression in var_defs:
                 for i, v in enumerate(numbers):
-                    ex = ex.replace(f"{{{i}}}", str(v))
+                    expression = expression.replace(f"{{{i}}}", str(v))
                 for n, v in variables.items():
-                    ex = ex.replace(f"{{{n}}}", str(v))
-                variables[name] = simple.eval(ex)
-            runText.append(fstring.format(*numbers, **variables))
-        # runText = [fstring.format(*n, **variables) for n in run]
-    except Exception as err:
-        format_opt = next(
-            a for a in ctx.command.params if a.human_readable_name == "fstring"
-        )
-        hint = format_opt.get_error_hint(ctx)
-        ctx.fail(f"Invalid value for {hint}: {str(err)}")
+                    expression = expression.replace(f"{{{n}}}", str(v))
+                variables[name] = simple.eval(expression)
+        except (
+            simpleeval.InvalidExpression,
+            simpleeval.FunctionNotDefined,
+            simpleeval.NameNotDefined,
+            simpleeval.AttributeDoesNotExist,
+            simpleeval.FeatureNotAvailable,
+            simpleeval.NumberTooHigh,
+            simpleeval.IterableTooLong,
+        ) as err:
+            format_opt = next(
+                a for a in ctx.command.params if a.human_readable_name == "var_defs"
+            )
+            hint = format_opt.get_error_hint(ctx)
+            ctx.fail(f"Invalid value for {hint}: {str(err)}")
 
-    # Reverse the list if asked.
-    # if reverse:
-    #    runText.reverse()
-
-    click.echo(sep.join(runText))
+        try:
+            # Convert iteration to text, using the provided format string
+            if not is_first:
+                click.echo(sep, nl=False)
+            else:
+                is_first = False
+            click.echo(fstring.format(*numbers, **variables), nl=False)
+        except Exception as err:
+            format_opt = next(
+                a for a in ctx.command.params if a.human_readable_name == "fstring"
+            )
+            hint = format_opt.get_error_hint(ctx)
+            ctx.fail(f"Invalid value for {hint}: {str(err)}")
+    # Print final newline
+    click.echo("\n", nl=False)
