@@ -7,6 +7,7 @@ import codecs
 import decimal
 from itertools import product
 from string import ascii_letters
+from math import sqrt
 
 from .simpleeval import SimpleEval
 
@@ -156,6 +157,7 @@ def run(ctx, start, stop, step, fstring, sep, reverse, also, var_defs):
             except ValueError as err:
                 ctx.fail(str(err))
 
+    # Initialize variable defintions
     variables = {name: 0 for name, ex in var_defs}
 
     run = list(product(*counters))
@@ -164,7 +166,9 @@ def run(ctx, start, stop, step, fstring, sep, reverse, also, var_defs):
     try:
         # Create restricted evaluator for --def params
         simple = SimpleEval()
-        # simple.functions = {}
+        simple.functions.update(
+            sqrt=sqrt
+        )
 
         runText = []
         for numbers in run:
