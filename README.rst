@@ -193,6 +193,18 @@ The expressions allow for some additional functions to be used. Notably the
 .. note::
     The expressions are evaluated using the `simpleeval`_ module. Read the docs to see, what expressions are possible. In general, the basic arithmetic operators (``+``, ``-``, ``*``, ``/``, ``*``, ``//``) are supported.
 
+In version 0.4.3 the ``--filter`` option was added to filter out some values from the run. The option requires an expression similar to ``--def`` that evaluates to a
+boolean value. Any iteration that evaluates to ``False`` will be omitted from the run.
+
+.. code-block:: console
+
+    $ run 100 --filter "{}%3==0 and {}%5==0"
+    15
+    30
+    45
+    60
+    75
+    90
 
 Examples
 ========
@@ -201,8 +213,8 @@ Generating a CSV file with a lists of decimal, binary and hexadecimal numbers:
 
 .. code-block:: console
 
-    $ echo "dec,bin,hex" > hostnames.csv
-    $ run 0 255 -f "{0:2},{0:08b},{0:02X}" >> numbers.csv
+    $ echo "dec,bin,oct,hex" > hostnames.csv
+    $ run 0 255 -f "{0:2},{0:08b},{0:02o},{0:02X}" >> numbers.csv
 
 
 Generating a list of computers in a network with hostnames and IP.

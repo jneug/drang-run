@@ -139,11 +139,12 @@ class OptargCommand(click.Command):
     help="Define a variable to use in the format string. The Variable may contain simple arithmetic expressions.",
     metavar="NAME EXPR",
 )
+@click.option("-F", "--filter", help="An boolean expression to filter out some values.", metavar="EXPR")
 @click.argument("start", required=False, default="1")
 @click.argument("stop")
 @click.argument("step", required=False, default="1")
 @click.pass_context
-def run(ctx, start, stop, step, fstring, sep, reverse, also, var_defs):
+def run(ctx, start, stop, step, fstring, sep, reverse, also, var_defs, filter):
     """Generate a run of integers or characters. Similar to jot and seq.
 
     The run of numbers can be integers or reals, depending on the values of START, STOP, and STEP.
@@ -185,22 +186,26 @@ def run(ctx, start, stop, step, fstring, sep, reverse, also, var_defs):
             # Evaluate expressions in variable definitions
             # for this instance of the counters
             for name, expression in var_defs:
-                for i, v in enumerate(numbers):
-                    expression = expression.replace(f"{{{i}}}", str(v))
-                for n, v in variables.items():
-                    expression = expression.replace(f"{{{n}}}", str(v))
-                variables[name] = simple.eval(expression)
-        except (
-            simpleeval.InvalidExpression,
-            simpleeval.FunctionNotDefined,
-            simpleeval.NameNotDefined,
-            simpleeval.AttributeDoesNotExist,
-            simpleeval.FeatureNotAvailable,
-            simpleeval.NumberTooHigh,
-            simpleeval.IterableTooLong,
-        ) as err:
+                expression_ = expression.format(*numbers, **variables)
+                variables[name] = simple.eval(expression_)
+        except Exception as err:
             format_opt = next(
                 a for a in ctx.command.params if a.human_readable_name == "var_defs"
+            )
+            hint = format_opt.get_error_hint(ctx)
+            ctx.fail(f"Invalid value for {hint}: {str(err)}")
+
+        try:
+            # Evaluate filter expression if provided
+            # Use counter values and variable definitions after evaluation
+            if filter is not None:
+                filter_ = filter.format(*numbers, **variables)
+                filter_ = simple.eval(filter_)
+                if not bool(filter_):
+                    continue
+        except Exception as err:
+            format_opt = next(
+                a for a in ctx.command.params if a.human_readable_name == "filter"
             )
             hint = format_opt.get_error_hint(ctx)
             ctx.fail(f"Invalid value for {hint}: {str(err)}")
