@@ -90,6 +90,9 @@ class Counter(object):
             self.step = -1 * self.step
             self.reversed = not self.reversed
 
+    def __len__(self):
+        return int((self.stop - self.start) // self.step) + 1
+
     def __iter__(self):
         num = self.start
         while (not self.reversed and num <= self.stop) or (
