@@ -154,7 +154,7 @@ def run(ctx, start, stop, step, fstring, sep, reverse, also, var_defs, filter):
     The defaults for both START and STEP are 1. If both START and STOP are characters and STEP is an
     integer, the result will be characters."""
     fstring = interpret(fstring) or "-".join(["{}"] * (len(also) + 1))
-    sep = interpret(sep) or "\n"
+    sep = (interpret(sep) or "\n") if sep != "" else ""
 
     try:
         counters = [Counter(start, stop, step, reverse=reverse)]
