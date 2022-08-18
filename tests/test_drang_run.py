@@ -93,7 +93,7 @@ def test_three_arg_mixed_int(start, stop, step):
     assert "\n".join(str(x) for x in gen) + "\n" == result.output
 
 
-@pytest.mark.parametrize("start,stop", [(-5, 10), (10, -20), (-1, 40), (-99, 100)])
+@pytest.mark.parametrize("start,stop", [(-5, 10), (10, -20), (-1, 40), (-99, 100), (1.24, 45.5)])
 def test_step_zero(start, stop):
     runner = CliRunner()
 

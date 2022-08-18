@@ -92,3 +92,24 @@ def test_counter_step_zero():
 
     with pytest.raises(ValueError):
         Counter(-10, 10, 0)
+
+
+@pytest.mark.parametrize(
+    "start,stop,step,expected",
+    [
+        (1, 10, -1, 10),
+        (10, 1, 1, 10),
+        (-5, 5, -1, 11),
+        (-5, 5, 1, 11),
+        (99, 100, 2, 1),
+        (56, 100, 1, 45),
+        (56, 100, 2, 23),
+        (56, 100, 3, 15),
+        (0, 0, 1, 1),
+        (0, 0, 10, 1),
+        (0, 0, -10, 1),
+    ],
+)
+def test_len(start, stop, step, expected):
+    cnt = Counter(start, stop, step)
+    assert len(cnt) == expected
