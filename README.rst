@@ -20,7 +20,7 @@ This will install the ``run`` command.
 .. code-block:: console
 
    $ run --version
-   run, version 0.4.3
+   run, version 0.4.4
 
 Usage
 =====

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "drang-run"
-version = "0.4.3"
+version = "0.4.4"
 description = "Generate a run of integers or characters. Similar to jot and seq."
 authors = ["J. Neugebauer <github@neugebauer.cc>"]
 license = "MIT"
@@ -37,7 +37,7 @@ profile = "black"
 github_url = "https://github.com/jneug/drang-run/"
 
 [tool.tbump.version]
-current = "0.4.3"
+current = "0.4.4"
 regex = '''
   (?P<major>\d+)
   \.
